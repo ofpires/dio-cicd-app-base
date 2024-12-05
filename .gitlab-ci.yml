@@ -38,7 +38,7 @@ deploy_dev:
   stage: deploy
   needs:
     - build_images
-  before_script:
-    - chmod 400 $SSH_KEY
+  tags:
+    - gcp
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY gcp@35.198.57.187 "sudo rm * -Rf sudo git clone --branch kubernetes https://gitlab.com/denilsonbonatti/gitlab-cicd-app-base.git && cd gitlab-cicd-app-base && kubectl -f deployment.yml"
+    - docker run -d --name nodeapp -p 3000:3000 denilsonbonatti/gitlab-cicd-node:1.0
